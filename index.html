@@ -98,11 +98,11 @@
 </head>
 <body>
 
-    <h1>🍯 Die Jagd nach der geheimen Zutat</h1>
+    <h1>🌲 Die Jagd nach der geheimen Zutat</h1>
     
     <div class="intro-box">
         <h2 style="font-size: 1.1em; margin: 0; line-height: 1.4; color: #2ecc71;">
-            Finde den Namen dieser wichtigen Zutat, die oft in leckeren Weihnachtsplätzchen enthalten ist.
+            Sammle an allen Stationen die Hinweise, um die geheime Zutat zu finden.
         </h2>
     </div>
 
@@ -113,50 +113,50 @@
     <div id="station-0" class="station-content">
         <h2>🐻 Station 1: Der Bär</h2>
         <video id="video-0" controls><source src="video_baer.mp4" type="video/mp4"></video>
-        <p><i>Notiere dir den Buchstaben!</i></p>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
     </div>
 
     <div id="station-1" class="station-content">
         <h2>👑 Station 2: Die Prinzessin</h2>
         <video id="video-1" controls><source src="video_prinzessin.mp4" type="video/mp4"></video>
-        <p><i>Notiere dir den Buchstaben!</i></p>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
     </div>
 
     <div id="station-2" class="station-content">
         <h2>👽 Station 3: Der Alien</h2>
         <video id="video-2" controls><source src="video_alien.mp4" type="video/mp4"></video>
-        <p><i>Notiere dir den Buchstaben!</i></p>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
     </div>
 
     <div id="station-3" class="station-content">
         <h2>🐿️ Station 4: Die Trainerin</h2>
         <video id="video-3" controls><source src="video_fitness.mp4" type="video/mp4"></video>
-        <p><i>Notiere dir den Buchstaben!</i></p>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
     </div>
 
     <div id="station-4" class="station-content">
         <h2>👻 Station 5: Das Gespenst</h2>
         <video id="video-4" controls><source src="video_gespenst.mp4" type="video/mp4"></video>
-        <p><i>Notiere dir den Buchstaben!</i></p>
+        <p><i>Notiere dir den letzten Hinweis!</i></p>
     </div>
 
     <div class="solution-box">
-        <h3>Alle Buchstaben gefunden?</h3>
-        <input type="text" id="finalInput" placeholder="LÖSUNGSWORT">
+        <h3>Lösung gefunden?</h3>
+        <input type="text" id="finalInput" placeholder="ZUTAT EINGEBEN">
         <br>
-        <button onclick="checkSolution()">✨ Zutat prüfen</button>
+        <button onclick="checkSolution()">✨ Prüfen</button>
         <h2 id="result"></h2>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // HIER DEINE KOORDINATEN EINTRAGEN (Beispiel Hannover Leibnizufer)
+        // TRAGE HIER DEINE ECHTEN KOORDINATEN EIN
         const targets = [
-            { lat: 52.3731, lon: 9.7295, icon: '❄️' }, 
-            { lat: 52.3735, lon: 9.7305, icon: '❄️' }, 
-            { lat: 52.3740, lon: 9.7315, icon: '❄️' }, 
-            { lat: 52.3745, lon: 9.7325, icon: '❄️' }, 
-            { lat: 52.3750, lon: 9.7335, icon: '❄️' }
+            { lat: 52.3731, lon: 9.7295 }, 
+            { lat: 52.3735, lon: 9.7305 }, 
+            { lat: 52.3740, lon: 9.7315 }, 
+            { lat: 52.3745, lon: 9.7325 }, 
+            { lat: 52.3750, lon: 9.7335 }
         ];
         const radius = 35; 
 
@@ -165,7 +165,7 @@
 
         targets.forEach((t) => {
             L.marker([t.lat, t.lon], {
-                icon: L.divIcon({ html: `<div style="font-size:24px;">❄️</div>`, className: 'dummy' })
+                icon: L.divIcon({ html: `<div style="font-size:24px;">🌲</div>`, className: 'dummy' })
             }).addTo(map);
             L.circle([t.lat, t.lon], { color: '#2ecc71', fillOpacity: 0.1, radius: radius }).addTo(map);
         });
@@ -176,7 +176,7 @@
             const uLat = pos.coords.latitude;
             const uLon = pos.coords.longitude;
             userMarker.setLatLng([uLat, uLon]);
-            document.getElementById('status-bar').innerText = "📍 Standort aktiv – Viel Glück!";
+            document.getElementById('status-bar').innerText = "📍 Suche läuft...";
 
             let activeIdx = -1;
             targets.forEach((t, i) => {
@@ -189,7 +189,7 @@
                 if(i === activeIdx) {
                     box.classList.add('active');
                     document.getElementById('map').style.display = 'none';
-                    document.getElementById('status-bar').innerText = "🎯 Station erreicht!";
+                    document.getElementById('status-bar').innerText = "🎯 Ziel erreicht!";
                 } else {
                     box.classList.remove('active');
                     if(vid) vid.pause();
@@ -204,16 +204,16 @@
             const val = document.getElementById('finalInput').value.toUpperCase();
             const res = document.getElementById('result');
             if(val === "HONIG") {
-                res.innerText = "🎉 RICHTIG! Die Zutat ist Honig! 🍯";
+                res.innerText = "🎉 RICHTIG! Ihr habt die Zutat gefunden!";
                 res.style.color = "#2ecc71";
             } else {
-                res.innerText = "Leider falsch... ❄️";
+                res.innerText = "Noch nicht ganz... 🌲";
                 res.style.color = "#e74c3c";
             }
         }
 
         navigator.geolocation.watchPosition(updateLocation, (err) => {
-            document.getElementById('status-bar').innerText = "❌ GPS-Fehler! Bitte Standort aktivieren.";
+            document.getElementById('status-bar').innerText = "❌ GPS-Fehler!";
         }, { enableHighAccuracy: true });
     </script>
 </body>
