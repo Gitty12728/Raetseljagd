@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Die Jagd nach der geheimen Zutat-Jagd</title>
+    <title>Die Jagd nach der geheimen Zutat</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         body { 
             font-family: 'Trebuchet MS', sans-serif; 
             text-align: center; 
-            background: #0a192f; /* Tiefes Weihnachts-Blau */
+            background: #0a192f; 
             color: #e0e0e0; 
             margin: 0; 
             padding: 20px; 
         }
-        h1 { color: #f1c40f; text-shadow: 2px 2px 4px #000; margin-bottom: 5px; }
+        h1 { color: #2ecc71; text-shadow: 2px 2px 4px #000; margin-bottom: 5px; }
         
         .intro-box { 
             background: rgba(255, 255, 255, 0.1); 
             padding: 15px; 
             border-radius: 15px; 
-            border: 2px solid #d4af37; 
+            border: 2px solid #2ecc71; 
             margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
         }
         
         #map { 
             height: 350px; 
             width: 100%; 
             border-radius: 15px; 
-            border: 3px solid #d4af37; 
+            border: 3px solid #2ecc71; 
             margin-bottom: 20px; 
         }
 
@@ -38,7 +38,7 @@
             background: #162a47; 
             padding: 20px; 
             border-radius: 15px; 
-            border: 3px solid #f1c40f; 
+            border: 3px solid #2ecc71; 
             animation: fadeIn 0.8s;
         }
 
@@ -46,14 +46,14 @@
             width: 100%; 
             max-width: 500px; 
             border-radius: 10px; 
-            border: 2px solid #f1c40f;
+            border: 2px solid #2ecc71;
             background: #000;
         }
 
         .active { display: block; }
 
         #status-bar { 
-            background: #d4af37; 
+            background: #2ecc71; 
             color: #0a192f; 
             padding: 10px; 
             font-weight: bold; 
@@ -64,9 +64,9 @@
         .solution-box { 
             margin-top: 30px; 
             padding: 20px; 
-            background: rgba(212, 175, 55, 0.1); 
+            background: rgba(46, 204, 113, 0.1); 
             border-radius: 15px; 
-            border: 1px solid #d4af37;
+            border: 1px solid #2ecc71;
         }
 
         input { 
@@ -77,12 +77,14 @@
             border-radius: 5px; 
             border: none; 
             margin-bottom: 10px;
+            background: #fff;
+            color: #333;
         }
 
         button { 
             padding: 12px 25px; 
             font-size: 1.1em; 
-            background: #b22222; /* Weihnachts-Rot */
+            background: #b22222; 
             color: white; 
             border: none; 
             border-radius: 5px; 
@@ -92,9 +94,6 @@
         button:hover { background: #8b0000; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Schneeflocken Deko */
-        .snowflake { color: white; font-size: 1.5em; position: absolute; pointer-events: none; }
     </style>
 </head>
 <body>
@@ -102,7 +101,7 @@
     <h1>🍯 Die Jagd nach der geheimen Zutat</h1>
     
     <div class="intro-box">
-        <h2 style="font-size: 1.1em; margin: 0; line-height: 1.4;">
+        <h2 style="font-size: 1.1em; margin: 0; line-height: 1.4; color: #2ecc71;">
             Finde den Namen dieser wichtigen Zutat, die oft in leckeren Weihnachtsplätzchen enthalten ist.
         </h2>
     </div>
@@ -114,31 +113,31 @@
     <div id="station-0" class="station-content">
         <h2>🐻 Station 1: Der Bär</h2>
         <video id="video-0" controls><source src="video_baer.mp4" type="video/mp4"></video>
-        <p><i>Finde den 1. Buchstaben des gesuchten Wortes!</i></p>
+        <p><i>Notiere dir den Buchstaben!</i></p>
     </div>
 
     <div id="station-1" class="station-content">
         <h2>👑 Station 2: Die Prinzessin</h2>
         <video id="video-1" controls><source src="video_prinzessin.mp4" type="video/mp4"></video>
-        <p><i>Finde den 1. Buchstaben des gesuchten Wortes!</i></p>
+        <p><i>Notiere dir den Buchstaben!</i></p>
     </div>
 
     <div id="station-2" class="station-content">
         <h2>👽 Station 3: Der Alien</h2>
         <video id="video-2" controls><source src="video_alien.mp4" type="video/mp4"></video>
-        <p><i>Finde den 1. Buchstaben des gesuchten Wortes!</i></p>
+        <p><i>Notiere dir den Buchstaben!</i></p>
     </div>
 
     <div id="station-3" class="station-content">
         <h2>🐿️ Station 4: Die Trainerin</h2>
         <video id="video-3" controls><source src="video_fitness.mp4" type="video/mp4"></video>
-        <p><i>Finde den 1. Buchstaben des gesuchten Wortes!</i></p>
+        <p><i>Notiere dir den Buchstaben!</i></p>
     </div>
 
     <div id="station-4" class="station-content">
         <h2>👻 Station 5: Das Gespenst</h2>
         <video id="video-4" controls><source src="video_gespenst.mp4" type="video/mp4"></video>
-        <p><i>Finde den 1. Buchstaben des gesuchten Wortes!</i></p>
+        <p><i>Notiere dir den Buchstaben!</i></p>
     </div>
 
     <div class="solution-box">
@@ -151,37 +150,33 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // --- HIER DEINE KOORDINATEN EINTRAGEN ---
+        // HIER DEINE KOORDINATEN EINTRAGEN (Beispiel Hannover Leibnizufer)
         const targets = [
-            { lat: 52.5200, lon: 13.4050, icon: '🐻' }, // H
-            { lat: 52.5210, lon: 13.4060, icon: '👑' }, // O
-            { lat: 52.5220, lon: 13.4070, icon: '👽' }, // N
-            { lat: 52.5230, lon: 13.4080, icon: '🐿️' }, // I
-            { lat: 52.5240, lon: 13.4090, icon: '👻' }  // G
+            { lat: 52.3731, lon: 9.7295, icon: '❄️' }, 
+            { lat: 52.3735, lon: 9.7305, icon: '❄️' }, 
+            { lat: 52.3740, lon: 9.7315, icon: '❄️' }, 
+            { lat: 52.3745, lon: 9.7325, icon: '❄️' }, 
+            { lat: 52.3750, lon: 9.7335, icon: '❄️' }
         ];
-        const radius = 30; // 30 Meter Toleranz
+        const radius = 35; 
 
-        // Karte initialisieren
         const map = L.map('map').setView([targets[0].lat, targets[0].lon], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap'
-        }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // Marker für die Stationen (Schneeflocken/Icons)
-        targets.forEach((t, i) => {
+        targets.forEach((t) => {
             L.marker([t.lat, t.lon], {
                 icon: L.divIcon({ html: `<div style="font-size:24px;">❄️</div>`, className: 'dummy' })
             }).addTo(map);
-            L.circle([t.lat, t.lon], { color: '#d4af37', fillOpacity: 0.1, radius: radius }).addTo(map);
+            L.circle([t.lat, t.lon], { color: '#2ecc71', fillOpacity: 0.1, radius: radius }).addTo(map);
         });
 
-        const userMarker = L.circleMarker([0, 0], { color: '#ff0000', radius: 10, fillOpacity: 1 }).addTo(map);
+        const userMarker = L.circleMarker([0, 0], { color: '#b22222', radius: 10, fillOpacity: 1 }).addTo(map);
 
         function updateLocation(pos) {
             const uLat = pos.coords.latitude;
             const uLon = pos.coords.longitude;
             userMarker.setLatLng([uLat, uLon]);
-            document.getElementById('status-bar').innerText = "📍 Dein Standort wird aktualisiert...";
+            document.getElementById('status-bar').innerText = "📍 Standort aktiv – Viel Glück!";
 
             let activeIdx = -1;
             targets.forEach((t, i) => {
@@ -194,7 +189,7 @@
                 if(i === activeIdx) {
                     box.classList.add('active');
                     document.getElementById('map').style.display = 'none';
-                    document.getElementById('status-bar').innerText = "🎯 Du hast eine Station erreicht!";
+                    document.getElementById('status-bar').innerText = "🎯 Station erreicht!";
                 } else {
                     box.classList.remove('active');
                     if(vid) vid.pause();
@@ -209,17 +204,16 @@
             const val = document.getElementById('finalInput').value.toUpperCase();
             const res = document.getElementById('result');
             if(val === "HONIG") {
-                res.innerText = "🎉 RICHTIG! Die Plätzchen sind gerettet! 🍯";
+                res.innerText = "🎉 RICHTIG! Die Zutat ist Honig! 🍯";
                 res.style.color = "#2ecc71";
             } else {
-                res.innerText = "Noch nicht ganz... such weiter! ❄️";
+                res.innerText = "Leider falsch... ❄️";
                 res.style.color = "#e74c3c";
             }
         }
 
-        // GPS Start
         navigator.geolocation.watchPosition(updateLocation, (err) => {
-            document.getElementById('status-bar').innerText = "❌ Bitte GPS aktivieren!";
+            document.getElementById('status-bar').innerText = "❌ GPS-Fehler! Bitte Standort aktivieren.";
         }, { enableHighAccuracy: true });
     </script>
 </body>
