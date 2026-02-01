@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Die Jagd nach der geheimen Zutat – PWA</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#2ecc71">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { 
+            font-family: 'Trebuchet MS', sans-serif; 
+            text-align: center; 
+            background: #0a192f; 
+            color: #e0e0e0; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        h1 { color: #2ecc71; text-shadow: 2px 2px 4px #000; margin-bottom: 5px; }
+
+        .intro-box { 
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 15px; 
+            border-radius: 15px; 
+            border: 2px solid #2ecc71; 
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.3);
+        }
+
+        #map { 
+            height: 350px; 
+            width: 100%; 
+            border-radius: 15px; 
+            border: 3px solid #2ecc71; 
+            margin-bottom: 20px; 
+        }
+
+        .station-content { 
+            display: none; 
+            background: #162a47; 
+            padding: 20px; 
+            border-radius: 15px; 
+            border: 3px solid #2ecc71; 
+            animation: fadeIn 0.8s;
+        }
+
+        video { 
+            width: 100%; 
+            max-width: 500px; 
+            border-radius: 10px; 
+            border: 2px solid #2ecc71;
+            background: #000;
+        }
+
+        .active { display: block; }
+
+        #status-bar { 
+            background: #2ecc71; 
+            color: #0a192f; 
+            padding: 10px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+        }
+
+        .solution-box { 
+            margin-top: 30px; 
+            padding: 20px; 
+            background: rgba(46, 204, 113, 0.1); 
+            border-radius: 15px; 
+            border: 1px solid #2ecc71;
+        }
+
+        input { 
+            padding: 12px; 
+            font-size: 1.1em; 
+            width: 180px; 
+            text-align: center; 
+            border-radius: 5px; 
+            border: none; 
+            margin-bottom: 10px;
+            background: #fff;
+            color: #333;
+        }
+
+        button { 
+            padding: 12px 25px; 
+            font-size: 1.1em; 
+            background: #b22222; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: 0.3s;
+        }
+        button:hover { background: #8b0000; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <h1>🌲 Auf der Jagd nach der geheimen Zutat</h1>
+
+    <div class="intro-box">
+        <h2 style="font-size: 1.1em; margin: 0; line-height: 1.4; color: #2ecc71;">
+            Sammle an allen Stationen die Hinweise, um die geheime Zutat zu finden.
+        </h2>
+    </div>
+
+    <div id="status-bar">🛰️ Suche GPS-Signal...</div>
+    <div id="map"></div>
+
+    <div id="station-0" class="station-content">
+        <h2>🐻 Station 1: Der Bär</h2>
+        <video id="video-0" controls><source src="video_baer.mp4" type="video/mp4"></video>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
+    </div>
+
+    <div id="station-1" class="station-content">
+        <h2>👑 Station 2: Die Prinzessin</h2>
+        <video id="video-1" controls><source src="video_prinzessin.mp4" type="video/mp4"></video>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
+    </div>
+
+    <div id="station-2" class="station-content">
+        <h2>👽 Station 3: Der Alien</h2>
+        <video id="video-2" controls><source src="video_alien.mp4" type="video/mp4"></video>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
+    </div>
+
+    <div id="station-3" class="station-content">
+        <h2>🐿️ Station 4: Die Trainerin</h2>
+        <video id="video-3" controls><source src="video_fitness.mp4" type="video/mp4"></video>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
+    </div>
+
+    <div id="station-4" class="station-content">
+        <h2>👻 Station 5: Das Gespenst</h2>
+        <video id="video-4" controls><source src="video_gespenst.mp4" type="video/mp4"></video>
+        <p><i>Notiere dir den Hinweis aus dem Video!</i></p>
+    </div>
+
+    <div class="solution-box">
+        <h3>Lösung gefunden?</h3>
+        <input type="text" id="finalInput" placeholder="ZUTAT EINGEBEN">
+        <br>
+        <button onclick="checkSolution()">✨ Prüfen</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const targets = [
+            { lat: 47.945131, lon: 11.220604 }, 
+            { lat: 47.944854, lon: 11.218571 }, 
+            { lat: 47.944549, lon: 11.217471 }, 
+            { lat: 47.944739, lon: 11.215641 }, 
+            { lat: 47.945564, lon: 11.216400 }
+        ];
+        const radius = 35; 
+
+        const map = L.map('map').setView([targets[0].lat, targets[0].lon], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        targets.forEach((t) => {
+            L.marker([t.lat, t.lon], {
+                icon: L.divIcon({ html: `<div style="font-size:24px;">🌲</div>`, className: 'dummy' })
+            }).addTo(map);
+            L.circle([t.lat, t.lon], { color: '#2ecc71', fillOpacity: 0.1, radius: radius }).addTo(map);
+        });
+
+        const userMarker = L.circleMarker([0, 0], { color: '#b22222', radius: 10, fillOpacity: 1 }).addTo(map);
+
+        function updateLocation(pos) {
+            const uLat = pos.coords.latitude;
+            const uLon = pos.coords.longitude;
+            userMarker.setLatLng([uLat, uLon]);
+            document.getElementById('status-bar').innerText = "📍 Suche läuft...";
+
+            let activeIdx = -1;
+            targets.forEach((t, i) => {
+                if (map.distance([uLat, uLon], [t.lat, t.lon]) <= radius) activeIdx = i;
+            });
+
+            for(let i=0; i<5; i++) {
+                const box = document.getElementById('station-' + i);
+                const vid = document.getElementById('video-' + i);
+                if(i === activeIdx) {
+                    box.classList.add('active');
+                    document.getElementById('map').style.display = 'none';
+                    document.getElementById('status-bar').innerText = "🎯 Ziel erreicht!";
+                } else {
+                    box.classList.remove('active');
+                    if(vid) vid.pause();
+                }
+            }
+            if(activeIdx === -1) {
+                document.getElementById('map').style.display = 'block';
+            }
+        }
+
+        function checkSolution() {
+            const val = document.getElementById('finalInput').value.toUpperCase();
+            const res = document.getElementById('result');
+            if(val === "HONIG") {
+                res.innerText = "🎉 RICHTIG! Ihr habt die Zutat gefunden!";
+                res.style.color = "#2ecc71";
+            } else {
+                res.innerText = "Noch nicht ganz... 🌲";
+                res.style.color = "#e74c3c";
+            }
+        }
+
+        navigator.geolocation.watchPosition(updateLocation, () => {
+            document.getElementById('status-bar').innerText = "❌ GPS-Fehler!";
+        }, { enableHighAccuracy: true });
+    </script>
+
+    <!-- Register Service Worker -->
+    <script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js");
+    }
+    </script>
+
+</body>
+</html>
