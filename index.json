@@ -1,72 +1,15 @@
 {
   "scenes": [
     {
-      "name": "VR Abenteuer 1",
+      "name": "Test Video",
       "is3d": true,
       "screenType": "dome",
       "stereoMode": "sbs",
-      "thumbnailUrl": "https://deinwebspace.de/thumbnails/video1.jpg",
-      "videoLength": 600,
+      "thumbnailUrl": "https://deovr.com/dist/img/rebrand/deovr-logo.png",
       "videoSources": [
         {
-          "resolution": 2160,
-          "url": "https://deinwebspace.de/videos/video1_4k.mp4"
-        }
-      ]
-    },
-    {
-      "name": "Strand Spaziergang 180",
-      "is3d": true,
-      "screenType": "dome",
-      "stereoMode": "sbs",
-      "thumbnailUrl": "https://deinwebspace.de/thumbnails/video2.jpg",
-      "videoLength": 300,
-      "videoSources": [
-        {
-          "resolution": 1440,
-          "url": "https://deinwebspace.de/videos/video2_2k.mp4"
-        }
-      ]
-    },
-    {
-      "name": "Stadtrundgang 360",
-      "is3d": true,
-      "screenType": "sphere",
-      "stereoMode": "sbs",
-      "thumbnailUrl": "https://deinwebspace.de/thumbnails/video3.jpg",
-      "videoLength": 450,
-      "videoSources": [
-        {
-          "resolution": 2160,
-          "url": "https://deinwebspace.de/videos/video3_4k.mp4"
-        }
-      ]
-    },
-    {
-      "name": "Weltraum Flug",
-      "is3d": true,
-      "screenType": "dome",
-      "stereoMode": "tb",
-      "thumbnailUrl": "https://deinwebspace.de/thumbnails/video4.jpg",
-      "videoLength": 1200,
-      "videoSources": [
-        {
-          "resolution": 2160,
-          "url": "https://deinwebspace.de/videos/video4_4k.mp4"
-        }
-      ]
-    },
-    {
-      "name": "Unterwasser Welt",
-      "is3d": true,
-      "screenType": "dome",
-      "stereoMode": "sbs",
-      "thumbnailUrl": "https://deinwebspace.de/thumbnails/video5.jpg",
-      "videoLength": 900,
-      "videoSources": [
-        {
-          "resolution": 2160,
-          "url": "https://deinwebspace.de/videos/video5_4k.mp4"
+          "resolution": 1080,
+          "url": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4"
         }
       ]
     }
